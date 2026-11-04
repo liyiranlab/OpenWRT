@@ -102,16 +102,16 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
 #默认主题
 #WRT_THEME: argon
  #WRT_THEME="bootstrap"
- #WRT_IP="192.168.10.1"
- WRT_NAME="RanWRT"
- WRT_SSID="AX"
+ WRT_IP="192.168.10.1"
+ WRT_NAME="${WRT_NAME:-RanWRT}"
+ WRT_SSID="${WRT_SSID:-AX}"
  #WRT_THEME="kucat"
 #修改默认主题
  sed -i "s/luci-theme-$WRT_THEME/luci-theme-bootstrap/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改immortalwrt.lan关联IP
- #sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
+ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
 #添加编译日期标识
- #sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
+ sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
  
  WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
  WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
@@ -553,21 +553,22 @@ if [[ $WRT_CONFIG == *"IPQ60XX"* ]]; then
 		"CONFIG_PACKAGE_usbutils=y"
     )
 fi
-[[ $WRT_CONFIG == "IPQ"* ]] && provided_config_lines+=("CONFIG_PACKAGE_sqm-scripts-nss=y" "CONFIG_PACKAGE_luci-app-sqm=y")
-if [[ $WRT_TAG == "IPQ"* ]]; then
-    provided_config_lines+=(
-        "CONFIG_PACKAGE_sqm-scripts-nss=y"
-        "CONFIG_PACKAGE_luci-app-sqm=y"
-    )
-fi
+
+#[[ $WRT_CONFIG == "IPQ"* ]] && provided_config_lines+=("CONFIG_PACKAGE_sqm-scripts-nss=y" "CONFIG_PACKAGE_luci-app-sqm=y")
+#if [[ $WRT_TAG == "IPQ"* ]]; then
+#    provided_config_lines+=(
+#        "CONFIG_PACKAGE_sqm-scripts-nss=y"
+#        "CONFIG_PACKAGE_luci-app-sqm=y"
+#    )
+#fi
 
 # 添加 SQM 配置（仅限 IPQ 平台）
 if [[ $WRT_CONFIG == "IPQ"* ]]; then
   #echo. "检测到 IPQ 平台，启用 SQM 配置..."
   provided_config_lines+=(
-  	"CONFIG_FEED_sqm_scripts_nss=n"
-    "CONFIG_PACKAGE_sqm-scripts-nss=n"
-    "CONFIG_PACKAGE_luci-app-sqm=n"
+  	#"CONFIG_FEED_sqm_scripts_nss=n"
+    "CONFIG_PACKAGE_sqm-scripts-nss=y"
+    "CONFIG_PACKAGE_luci-app-sqm=y"
     # 依赖项
     #"CONFIG_PACKAGE_kmod-nft-core=y"
     #"CONFIG_PACKAGE_tc-full=y"
