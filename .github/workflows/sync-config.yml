@@ -19,7 +19,7 @@ jobs:
       # 同步 NO 文件
       - name: Sync NO Config files
         run: |
-          cp Config/IPQ60XX-WIFI-NO.txt Config/IPQ60XX-NAND-WIFI-NO.txt
+          cp Config/IPQ60XX.txt Config/IPQ60XX-NAND.txt
 
       # 同步 YES 文件
       - name: Sync YES Config files
@@ -32,6 +32,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add Config/IPQ807X-NMODEM.txt .txt Config/IPQ60XX-EMMC-WIFI-YES.txt
-          git commit -m "Sync Config files: NO and YES"
+          git add Config/IPQ60XX-NAND.txt Config/IPQ807X-NMODEM.txt Config/IPQ60XX-EMMC.txt
+          git commit -m "Sync Config files"
           git push
