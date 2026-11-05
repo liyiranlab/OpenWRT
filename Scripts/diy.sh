@@ -62,8 +62,8 @@ UPDATE_PACKAGE "luci-app-adguardhome" "ysuolmai/luci-app-adguardhome" "apk"
 UPDATE_PACKAGE "advancedplus" "sirpdboy/luci-app-advancedplus" "main"
 #UPDATE_PACKAGE "netdata luci-app-netdata" "xuanranran/openwrt-netdata" "main" "pkg"
 # 更新 sqm-scripts-nss 包
-#UPDATE_PACKAGE "sqm-scripts-nss" "JuliusBairaktaris/sqm-scripts-nss" "main"
-UPDATE_PACKAGE "sqm-scripts-nss" "qosmio/sqm-scripts-nss" "main"
+UPDATE_PACKAGE "sqm-scripts-nss" "JuliusBairaktaris/sqm-scripts-nss" "main"
+#UPDATE_PACKAGE "sqm-scripts-nss" "qosmio/sqm-scripts-nss" "main"
 #UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "master"
 #UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 
