@@ -109,7 +109,7 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
 #修改默认主题
  sed -i "s/luci-theme-$WRT_THEME/luci-theme-bootstrap/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改immortalwrt.lan关联IP
- sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
+ #sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
 #添加编译日期标识
  #sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
  
@@ -127,9 +127,9 @@ elif [ -f "$WIFI_UC" ]; then
 	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
 fi
 
-CFG_FILE="./package/base-files/files/bin/config_generate"
+#CFG_FILE="./package/base-files/files/bin/config_generate"
 #修改默认IP地址
-sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+#sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
