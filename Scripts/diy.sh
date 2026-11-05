@@ -138,6 +138,19 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
+mkdir -p ./package/base-files/files/etc/uci-defaults
+cat > ./package/base-files/files/etc/uci-defaults/99-set-lan-proto << 'EOF'
+#!/bin/sh
+uci set network.lan.proto='static'
+uci set network.lan.ipaddr='192.168.10.1'
+uci set network.lan.netmask='255.255.255.0'
+uci set dhcp.lan.ignore='0'
+uci commit network
+uci commit dhcp
+exit 0
+EOF
+chmod +x ./package/base-files/files/etc/uci-defaults/99-set-lan-proto
+
 #配置文件修改argon
 #echo "CONFIG_PACKAGE_luci=y" >> ./.config
 #echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
