@@ -113,64 +113,30 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
 #添加编译日期标识
  sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
  
- #WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
- #WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
- #if [ -f "$WIFI_SH" ]; then
+ WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
+ WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
+ if [ -f "$WIFI_SH" ]; then
  	#修改WIFI名称
- #	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
+ 	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
  	#修改WIFI密码
- #	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
+ 	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
  #elif [ -f "$WIFI_UC" ]; then
  	#修改WIFI名称
- #	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
+ 	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
  	#修改WIFI密码
- #	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
+ 	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
  	#修改WIFI地区
- #	sed -i "s/country='.*'/country='CN'/g" $WIFI_UC
+ 	sed -i "s/country='.*'/country='CN'/g" $WIFI_UC
  	#修改WIFI加密
- #	sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" $WIFI_UC
- #fi
+ 	sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" $WIFI_UC
+ fi
 
-# 1) 旧式 set-wireless.sh，可能匹配多个文件
-for f in $(find ./target/linux/mediatek/filogic ./target/linux/qualcommax \
-    -path "*/base-files/etc/uci-defaults/*set-wireless.sh" -type f 2>/dev/null); do
-    [ -f "$f" ] || continue
-    sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" "$f"
-    sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" "$f"
-done
-
-# 2) 新式 mac80211.uc
-WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
-if [ -f "$WIFI_UC" ]; then
-    sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" "$WIFI_UC"
-    sed -i "s/key='.*'/key='$WRT_WORD'/g" "$WIFI_UC"
-    sed -i "s/country='.*'/country='CN'/g" "$WIFI_UC"
-    sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" "$WIFI_UC"
-fi
-
-# 兼容新旧 config_generate 路径
-for CFG_FILE in \
-    "./package/base-files/files/bin/config_generate" \
-    "./package/base-files/luci2/bin/config_generate"
-do
-    [ -f "$CFG_FILE" ] || continue
-
-    # 如果 Settings.sh 已经把 IP 删空，这里补一个默认再替换
-    if ! grep -qE '192\.168\.[0-9]+\.[0-9]+' "$CFG_FILE"; then
-        sed -i "0,/ipaddr=''/s//ipaddr='192.168.1.1'/" "$CFG_FILE" 2>/dev/null
-        sed -i "0,/192\.168\.1\.1/s//192.168.1.1/" "$CFG_FILE" 2>/dev/null
-    fi
-
-    sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" "$CFG_FILE"
-    sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" "$CFG_FILE"
-done
-
-#CFG_FILE="./package/base-files/files/bin/config_generate"
+CFG_FILE="./package/base-files/files/bin/config_generate"
 
 #修改默认IP地址
-#sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
-#sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
+sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
 #配置文件修改argon
 #echo "CONFIG_PACKAGE_luci=y" >> ./.config
