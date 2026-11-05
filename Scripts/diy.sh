@@ -109,9 +109,9 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
 #修改默认主题
  sed -i "s/luci-theme-$WRT_THEME/luci-theme-bootstrap/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改immortalwrt.lan关联IP
- sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
+ #sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
 #添加编译日期标识
- sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
+ #sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
  
  WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
  WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
@@ -131,10 +131,24 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
  	sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" $WIFI_UC
  fi
 
-CFG_FILE="./package/base-files/files/bin/config_generate"
+mkdir -p ./package/base-files/files/etc/uci-defaults
+cat > ./package/base-files/files/etc/uci-defaults/99-set-lan-system << 'EOF'
+#!/bin/sh
+uci set network.lan.proto='static'
+uci set network.lan.ipaddr='192.168.10.1'
+uci set network.lan.netmask='255.255.255.0'
+uci set system.@system[0].hostname='RanWRT'
+uci commit network
+uci commit system
+passwd -d root
+exit 0
+EOF
+chmod +x ./package/base-files/files/etc/uci-defaults/99-set-lan-system
+
+#CFG_FILE="./package/base-files/files/bin/config_generate"
 
 #修改默认IP地址
-sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+#sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
