@@ -107,31 +107,31 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
  WRT_SSID="AX"
  #WRT_THEME="kucat"
 #修改默认主题
- #sed -i "s/luci-theme-$WRT_THEME/luci-theme-bootstrap/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
+ sed -i "s/luci-theme-$WRT_THEME/luci-theme-bootstrap/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改immortalwrt.lan关联IP
- #sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
+ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
 #添加编译日期标识
  #sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ $WRT_MARK-$WRT_DATE')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
  
-#WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
-#WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
-#if [ -f "$WIFI_SH" ]; then
+WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
+WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
+if [ -f "$WIFI_SH" ]; then
 	#修改WIFI名称
-#	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
+	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
 	#修改WIFI密码
-#	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
-#elif [ -f "$WIFI_UC" ]; then
+	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
+elif [ -f "$WIFI_UC" ]; then
 	#修改WIFI名称
-#	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
+	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
 	#修改WIFI密码
-#	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
-#fi
+	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
+fi
 
-#CFG_FILE="./package/base-files/files/bin/config_generate"
+CFG_FILE="./package/base-files/files/bin/config_generate"
 #修改默认IP地址
-#sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
-#sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
+sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
 #配置文件修改argon
 #echo "CONFIG_PACKAGE_luci=y" >> ./.config
@@ -140,10 +140,10 @@ UPDATE_PACKAGE	"taskd luci-lib-xterm luci-lib-taskd luci-app-store quickstart lu
 #echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
 #sed -i '/CONFIG_PACKAGE_luci-light/d' ./.config
 #echo "CONFIG_PACKAGE_luci-light=n" >> ./.config
-##echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=n" >> ./.config
 #echo "CONFIG_PACKAGE_luci-app-$WRT_THEME=y" >> ./.config
-##echo "CONFIG_PACKAGE_luci-i18n-$WRT_THEME-config-zh-cn=n" >> ./.config
-##echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-i18n-$WRT_THEME-config-zh-cn=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-theme-aurora=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-argon-config=n" >> ./.config
