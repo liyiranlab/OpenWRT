@@ -576,11 +576,37 @@ else
   echo. "非 IPQ 平台，跳过 SQM 配置"
 fi
 
+# 添加 SQM 配置（仅限 IPQ 平台）IPQ807X
+if [[ $WRT_CONFIG == "IPQ60XX"* ]]; then
+  #echo. "检测到 IPQ 平台，切换NSS"
+  provided_config_lines+=(
+	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
+	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
+  )
+else
+  echo. "非 IPQ 平台，跳过 SQM 配置"
+fi
+
 # Append configuration lines to .config
 for line in "${provided_config_lines[@]}"; do
     echo "$line" >> .config
 done
 
+# 添加 SQM 配置（仅限 IPQ 平台）IPQ807X
+if [[ $WRT_CONFIG == "IPQ807X"* ]]; then
+  #echo. "检测到 IPQ 平台，切换NSS"
+  provided_config_lines+=(
+	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
+	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
+  )
+else
+  echo. "非 IPQ 平台，跳过 SQM 配置"
+fi
+
+# Append configuration lines to .config
+for line in "${provided_config_lines[@]}"; do
+    echo "$line" >> .config
+done
 
 #./scripts/feeds update -a
 #./scripts/feeds install -a
