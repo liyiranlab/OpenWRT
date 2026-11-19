@@ -566,6 +566,8 @@ if [[ $WRT_CONFIG == "IPQ"* ]]; then
   	#"CONFIG_FEED_sqm_scripts_nss=n"
     "CONFIG_PACKAGE_sqm-scripts-nss=y"
     "CONFIG_PACKAGE_luci-app-sqm=y"
+	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
+	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
     # 依赖项
     #"CONFIG_PACKAGE_kmod-nft-core=y"
     #"CONFIG_PACKAGE_tc-full=y"
