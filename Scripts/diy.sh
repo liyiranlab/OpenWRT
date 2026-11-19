@@ -581,7 +581,7 @@ if [[ $WRT_CONFIG == "IPQ60XX"* ]]; then
   #echo. "检测到 IPQ 平台，切换NSS"
   provided_config_lines+=(
 	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
-	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
+	"# CONFIG_NSS_FIRMWARE_VERSION_11_4 is not set"
   )
 else
   echo. "非 IPQ 平台，跳过 SQM 配置"
@@ -597,7 +597,7 @@ if [[ $WRT_CONFIG == "IPQ807X"* ]]; then
   #echo. "检测到 IPQ 平台，切换NSS"
   provided_config_lines+=(
 	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
-	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
+	"# CONFIG_NSS_FIRMWARE_VERSION_11_4 is not set"
   )
 else
   echo. "非 IPQ 平台，跳过 SQM 配置"
