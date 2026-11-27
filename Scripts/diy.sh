@@ -559,27 +559,29 @@ fi
 #    )
 #fi
 
-# 添加 SQM 配置（仅限 IPQ 平台）
-if [[ $WRT_CONFIG == "IPQ"* ]]; then
-  #echo. "检测到 IPQ 平台，启用 SQM 配置..."
-  provided_config_lines+=(
-  	#"CONFIG_FEED_sqm_scripts_nss=n"
-    "CONFIG_PACKAGE_sqm-scripts-nss=y"
-    "CONFIG_PACKAGE_luci-app-sqm=y"
-	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
-	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
-    # 依赖项
-    #"CONFIG_PACKAGE_kmod-nft-core=y"
-    #"CONFIG_PACKAGE_tc-full=y"
-  )
-else
-  echo. "非 IPQ 平台，跳过 SQM 配置"
-fi
+# # 添加 SQM 配置（仅限 IPQ 平台）
+# if [[ $WRT_CONFIG == "IPQ"* ]]; then
+#   #echo. "检测到 IPQ 平台，启用 SQM 配置..."
+#   provided_config_lines+=(
+#   	#"CONFIG_FEED_sqm_scripts_nss=n"
+#     "CONFIG_PACKAGE_sqm-scripts-nss=y"
+#     "CONFIG_PACKAGE_luci-app-sqm=y"
+# 	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
+# 	"CONFIG_NSS_FIRMWARE_VERSION_11_4=n"
+#     # 依赖项
+#     #"CONFIG_PACKAGE_kmod-nft-core=y"
+#     #"CONFIG_PACKAGE_tc-full=y"
+#   )
+# else
+#   echo. "非 IPQ 平台，跳过 SQM 配置"
+# fi
 
 # 添加 SQM 配置（仅限 IPQ 平台）IPQ807X
 if [[ $WRT_CONFIG == "IPQ60XX"* ]]; then
   #echo. "检测到 IPQ 平台，切换NSS"
   provided_config_lines+=(
+    "CONFIG_PACKAGE_sqm-scripts-nss=y"
+    "CONFIG_PACKAGE_luci-app-sqm=y"
 	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
 	"# CONFIG_NSS_FIRMWARE_VERSION_11_4 is not set"
   )
@@ -596,6 +598,8 @@ done
 if [[ $WRT_CONFIG == "IPQ807X"* ]]; then
   #echo. "检测到 IPQ 平台，切换NSS"
   provided_config_lines+=(
+    "CONFIG_PACKAGE_sqm-scripts-nss=y"
+    "CONFIG_PACKAGE_luci-app-sqm=y"
 	"CONFIG_NSS_FIRMWARE_VERSION_12_5=y"
 	"# CONFIG_NSS_FIRMWARE_VERSION_11_4 is not set"
   )
